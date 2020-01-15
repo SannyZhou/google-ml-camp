@@ -49,8 +49,8 @@ val_imgs = [s for s in all_imgs if s['imageset'] == 'test']
 
 print('Train samples {}, Val samples {}'.format(len(train_imgs), len(val_imgs)))
 
-data_gen_train = data_generators.get_anchor_gt(train_imgs, classes_count, C, K.image_dim_ordering(), mode='train')
-data_gen_val = data_generators.get_anchor_gt(val_imgs, classes_count, C, K.image_dim_ordering(), mode='val')
+data_gen_train = data_generators.get_anchor_gt(train_imgs, classes_count, C, K.image_data_format(), mode='train')
+data_gen_val = data_generators.get_anchor_gt(val_imgs, classes_count, C, K.image_data_format(), mode='val')
 
 img_input = Input(shape=(None, None, 3))
 roi_input = Input(shape=(C.num_rois, 4))
@@ -103,7 +103,7 @@ try:
                 X, Y, img_data = next(data_gen_train)
                 loss_rpn = model_rpn.train_on_batch(X, Y)
                 P_rpn = model_rpn.predict_on_batch(X)
-                R = roi_helpers.rpn_to_roi(P_rpn[0], P_rpn[1], C, K.image_dim_ordering(), use_regr=True, overlap_thresh=0.7, max_boxes=300)
+                R = roi_helpers.rpn_to_roi(P_rpn[0], P_rpn[1], C, K.image_data_format(), use_regr=True, overlap_thresh=0.7, max_boxes=300)
 
                 # note: calc_iou converts from (x1,y1,x2,y2) to (x,y,w,h) format
                 X2, Y1, Y2 = roi_helpers.calc_iou(R, img_data, C, class_mapping)
