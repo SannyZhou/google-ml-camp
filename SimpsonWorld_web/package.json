@@ -1,0 +1,54 @@
+{
+  "name": "element-starter",
+  "description": "A Vue.js project",
+  "author": "yi.shyang@ele.me",
+  "private": true,
+  "scripts": {
+    "dev": "webpack-dev-server --inline --hot --env.dev",
+    "build": "rimraf dist && webpack -p --progress --hide-modules"
+  },
+  "dependencies": {
+    "ajv": "^6.6.1",
+    "ajv-errors": "^1.0.0",
+    "ajv-keywords": "^3.2.0",
+    "axios": "^0.18.0",
+    "babel": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "element-ui": "^2.3.4",
+    "es2015": "^0.0.0",
+    "lodash": "^4.17.11",
+    "mockjs": "^1.0.1-beta3",
+    "moment": "^2.23.0",
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.2",
+    "vue2-datatable-component": "^2.3.1",
+    "vuex": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.6.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^6.4.1",
+    "babel-preset-vue-app": "^1.2.0",
+    "css-loader": "^0.27.0",
+    "file-loader": "^0.10.1",
+    "html-webpack-plugin": "^2.30.1",
+    "postcss-loader": "^1.3.3",
+    "rimraf": "^2.5.4",
+    "sass-resources-loader": "^2.0.0",
+    "style-loader": "^0.13.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "url-loader": "^0.5.8",
+    "vue-loader": "^13.3.0",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^2.7.0",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ier005/Zuker_web.git",
+  "license": "MIT"
+}
