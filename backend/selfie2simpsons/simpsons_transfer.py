@@ -1,11 +1,15 @@
-from networks import ResnetGenerator as RG
-from utils import *
+from selfie2simpsons.networks import ResnetGenerator as RG
+from selfie2simpsons.utils import *
 import torch
 import cv2
 import argparse
 import os
 from torchvision import transforms
 from PIL import Image
+import sys
+
+LOCAL_DIR = "/home/sannysjtu/google/google-ml-camp"
+
 
 def simpsons_transfer(content_imgs):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -13,7 +17,7 @@ def simpsons_transfer(content_imgs):
 
     genA2B.eval()
 
-    params = torch.load('./results_default/people2simpson/model/people2simpson_params_0143000.pt')
+    params = torch.load(os.path.join('selfie2simpsons/selfie2simpsons_params.pt'))
     genA2B.load_state_dict(params['genA2B'])
     
     output_imgs = []

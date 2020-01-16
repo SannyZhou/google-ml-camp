@@ -10,7 +10,7 @@ import base64
 from person_face_detection.detector import detect_faces
 import numpy as np
 from PIL import Image
-from style_transfer.ugan import get_transferred_imgs
+from selfie2simpsons.simpsons_transfer import simpsons_transfer
 from darknet_yolo.SimpsonDetect import get_simpson_classes
 from PPLM.run_pplm import run_pplm_example
 import re
@@ -53,7 +53,7 @@ def get_submission():
 
     # style transfer TODO Note that maybe have more than one face,  need to iter the cropped_faces
     # return the transferred images list
-    style_transferred_imgs = get_transferred_imgs(cropped_faces)
+    style_transferred_imgs = simpsons_transfer(cropped_faces)
 
     # recognize who i am TODO Note that maybe have more than one face,  need to iter the cropped_faces
     # return the classes of images list

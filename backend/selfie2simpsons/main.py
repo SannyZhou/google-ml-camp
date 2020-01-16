@@ -1,6 +1,6 @@
-from UGATIT import UGATIT
+from selfie2simpsons.UGATIT import UGATIT
 import argparse
-from utils import *
+from selfie2simpsons.utils import *
 
 """parsing and configuration"""
 

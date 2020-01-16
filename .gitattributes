@@ -1,1 +1,2 @@
 backend/darknet_yolo/simpsons_final.weights filter=lfs diff=lfs merge=lfs -text
+backend/selfie2simpsons/selfie2simpsons_params.pt filter=lfs diff=lfs merge=lfs -text

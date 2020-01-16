@@ -1,9 +1,9 @@
 import time, itertools
-from dataset import ImageFolder
+from selfie2simpsons.dataset import ImageFolder
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from networks import *
-from utils import *
+from selfie2simpsons.networks import *
+from selfie2simpsons.utils import *
 from glob import glob
 from tensorboardX import SummaryWriter
 
