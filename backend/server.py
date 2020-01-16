@@ -79,7 +79,7 @@ def get_submission():
     # process data
     text_orig = json_data['description']
     imageBase64 = json_data['imageBase64']
-    # base64_data = re.sub('^data:image/.+;base64,', '', imageBase64)
+    base64_data = re.sub('^data:image/.+;base64,', '', imageBase64)
     byte_data = base64.b64decode(imageBase64.split(",")[1])
     image_data = BytesIO(byte_data)
     origin_img = Image.open(image_data)
@@ -134,7 +134,7 @@ def get_submission():
     return Response(json.dumps(results), 200, mimetype="application/json")
 
 
-def crop_face(imgarray, section, margin=40, size=64):
+def crop_face(imgarray, section, margin=120, size=64):
     """
     :param imgarray: full image
     :param section: face detected area (x, y, w, h)
@@ -162,7 +162,7 @@ def crop_face(imgarray, section, margin=40, size=64):
     cropped = imgarray[y_a: y_b, x_a: x_b]
     resized_img = cv2.resize(cropped, (size, size), interpolation=cv2.INTER_AREA)
     resized_img = np.array(resized_img)
-    return resized_img, (x_a, y_a, x_b, y_b)
+    return resized_img
 
 
 # face recognition
