@@ -11,7 +11,7 @@ from person_face_detection.detector import detect_faces
 import numpy as np
 from PIL import Image
 from selfie2simpsons.simpsons_transfer import simpsons_transfer
-from PPLM.run_pplm import run_pplm_example
+from PPLM.run_pplm import run_pplm_batch
 import re
 from io import BytesIO
 import os
@@ -39,8 +39,8 @@ def simpson_person_classify(input_path):
     meta = dn.load_meta(b"/home/sannysjtu/google/google-ml-camp/backend/darknet_yolo/simpsons.data")
     files = os.listdir(input_path)
 
-    #res in the r is the detection result of the model
-    #the classname is the only required result of our application
+    # res in the r is the detection result of the model
+    # the classname is the only required result of our application
 
     person_class_list = []
 
@@ -52,7 +52,7 @@ def simpson_person_classify(input_path):
             best_classname = random.choice(list(SIMPSON2ID.keys()))
         else:
             for res in r:
-                classname,score,bbox = res
+                classname, score, bbox = res
                 classname = classname.decode()
                 current_class_list.append(classname)
                 current_scores.append(current_scores)
@@ -101,23 +101,20 @@ def get_submission():
     simpson_classes = simpson_person_classify(this_dir)
 
     # story telling the origin description with personality
-    text_results = []
-    for simpson_person in simpson_classes:
-        text_results.append(
-            run_pplm_example(cond_text=text_orig,
-                             num_samples=1,
-                             discrim='simpson',
-                             class_label=SIMPSON2ID[simpson_person],
-                             length=25,
-                             stepsize=0.01,
-                             num_iterations=10,
-                             gamma=1.5,
-                             kl_scale=0.02,
-                             gm_scale=0.95,
-                             window_length=5,
-                             sample=True,
-                             verbosity='quiet')
-        )
+    text_results = run_pplm_batch(cond_text=text_orig,
+                                  labels=simpson_classes,
+                                  num_samples=1,
+                                  discrim='simpson',
+                                  class_label=1,
+                                  length=25,
+                                  stepsize=0.01,
+                                  num_iterations=10,
+                                  gamma=1.5,
+                                  kl_scale=0.02,
+                                  gm_scale=0.95,
+                                  window_length=5,
+                                  sample=True,
+                                  verbosity='quiet')
     results = {}
     for idx, (face, style_transferred_img, simpson_class, simpson_text) in enumerate(zip(cropped_faces,
                                                                                          style_transferred_imgs,
