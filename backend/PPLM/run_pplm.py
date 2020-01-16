@@ -85,7 +85,7 @@ DISCRIMINATOR_MODELS_PARAMS = {
         "pretrained_model": "gpt2-medium",
     },
     "simpson":{
-        "path": "/home/sannysjtu/google/google-ml-camp/backend/simpson_classifier_head_epoch_10.pt",
+        "path": "/home/sannysjtu/google/google-ml-camp/backend/PPLM/simpson_classifier_head_epoch_10.pt",
         "class_size": 19,
         "embed_size": 768,
         "class_vocab": {'abraham_grampa_simpson': 0, 'apu_nahasapeemapetilon': 1, 'bart_simpson': 2,
