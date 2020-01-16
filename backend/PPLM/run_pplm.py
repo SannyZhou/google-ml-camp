@@ -87,13 +87,13 @@ DISCRIMINATOR_MODELS_PARAMS = {
     "simpson":{
         "path": "/home/sannysjtu/google/google-ml-camp/backend/PPLM/simpson_classifier_head_epoch_10.pt",
         "class_size": 19,
-        "embed_size": 1024,
+        "embed_size": 768,
         "class_vocab": {'abraham_grampa_simpson': 0, 'apu_nahasapeemapetilon': 1, 'bart_simpson': 2,
                         'charles_montgomery_burns': 3, 'chief_wiggum': 4, 'comic_book_guy': 5, 'edna_krabappel': 6,
                         'homer_simpson': 7, 'kent_brockman': 8, 'krusty_the_clown': 9, 'lisa_simpson': 10,
                         'marge_simpson': 11, 'milhouse_van_houten': 12, 'moe_szyslak': 13, 'ned_flanders': 14,
                         'nelson_muntz': 15, 'principal_skinner': 16, 'raw_character_text': 17, 'sideshow_bob': 18},
-        "pretrained_model": "gpt2-medium",
+        "pretrained_model": "gpt2",
 
     }
 }
