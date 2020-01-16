@@ -87,7 +87,7 @@ DISCRIMINATOR_MODELS_PARAMS = {
     "simpson":{
         "path": "/home/sannysjtu/google/google-ml-camp/backend/PPLM/simpson_classifier_head_epoch_10.pt",
         "class_size": 19,
-        "embed_size": 768,
+        "embed_size": 1024,
         "class_vocab": {'abraham_grampa_simpson': 0, 'apu_nahasapeemapetilon': 1, 'bart_simpson': 2,
                         'charles_montgomery_burns': 3, 'chief_wiggum': 4, 'comic_book_guy': 5, 'edna_krabappel': 6,
                         'homer_simpson': 7, 'kent_brockman': 8, 'krusty_the_clown': 9, 'lisa_simpson': 10,
