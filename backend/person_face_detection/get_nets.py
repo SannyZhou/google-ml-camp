@@ -5,7 +5,7 @@ from collections import OrderedDict
 import numpy as np
 import os
 
-LOCAL_DIR = "/Users/Sanny02/Desktop/backend/google-ml-camp/backend/person_face_detection"
+LOCAL_DIR = "/home/sannysjtu/google/google-ml-camp/backend/person_face_detection"
 
 
 class Flatten(nn.Module):
