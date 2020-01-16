@@ -1,6 +1,6 @@
 classes= 18
 train  = /home/aprilpear1996/dataset/New_Simpsons/train.txt
 valid  = /home/aprilpear1996/dataset/New_Simpsons/val.txt
-names  = /home/aprilpear1996/dataset/New_Simpsons/simpsons.names
+names  = /home/sannysjtu/google/google-ml-camp/backend/darknet_yolo/simpsons.names
 backup = /home/aprilpear1996/dataset/New_Simpsons/checkpoint/
 

@@ -16,6 +16,9 @@ from PPLM.run_pplm import run_pplm_example
 import re
 from io import BytesIO
 
+sys.path.append('/home/sannysjtu/google/google-ml-camp/backend/darknet_yolo')
+import darknet as dn
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 SIMPSON2ID = {'abraham_grampa_simpson': 0, 'apu_nahasapeemapetilon': 1, 'bart_simpson': 2,
@@ -23,6 +26,33 @@ SIMPSON2ID = {'abraham_grampa_simpson': 0, 'apu_nahasapeemapetilon': 1, 'bart_si
               'homer_simpson': 7, 'kent_brockman': 8, 'krusty_the_clown': 9, 'lisa_simpson': 10,
               'marge_simpson': 11, 'milhouse_van_houten': 12, 'moe_szyslak': 13, 'ned_flanders': 14,
               'nelson_muntz': 15, 'principal_skinner': 16, 'raw_character_text': 17, 'sideshow_bob': 18}
+
+def simpson_person_classify():
+    dn.set_gpu(0)
+    net = dn.load_net(b"simpsons_test.cfg", b"../../dataset/New_Simpsons/checkpoint/simpsons_5000.weights", 0)
+    meta = dn.load_meta(b"simpsons.data")
+    #The result directory of the style transfer process
+    input_path = '/home/aprilpear1996/dataset/New_Simpsons/test/stylish/'
+    #The result directory of the boxed picture
+    out_path = '/home/aprilpear1996/dataset/New_Simpsons/test/result/'
+    files = os.listdir(input_path)
+
+    #res in the r is the detection result of the model
+    #the classname is the only required result of our application 
+
+    with open(out_path + "result.txt",'w') as fwrite:
+
+        for imgfile in files:
+                imgfilename = imgfile[:-4]
+                        imgfilepath = input_path+imgfile
+                                outpath = out_path + imgfile
+                                        r = dn.detect(net, meta, imgfilepath.encode('utf-8'))
+                                                print (r)
+                                                        img = cv2.imread(imgfilepath)
+
+                                                                for res in r:
+                                                                                classname,score,bbox = res
+                                                                                            classname = classname.decode()
 
 
 @app.route("/api/upload", methods=['POST'])
