@@ -889,7 +889,7 @@ def run_pplm_batch(
     # full_text_generation returns:
     # unpert_gen_tok_text, pert_gen_tok_texts, discrim_losses, losses_in_time
     unpert_gen_tok_text_list, pert_gen_tok_texts_list = [], []
-    full_res = full_text_generation_batch(
+    unpert_gen_tok_text, pert_gen_tok_texts_list, _, _ = full_text_generation_batch(
         model=model,
         tokenizer=tokenizer,
         context=tokenized_cond_text,
@@ -914,19 +914,16 @@ def run_pplm_batch(
         kl_scale=kl_scale,
         verbosity_level=verbosity_level
     )
-    unpert_gen_tok_text_list = full_res[0]
-    pert_gen_tok_texts_list = full_res[1]
 
 
     # untokenize unperturbed text
-    for unpert_gen_tok_text in unpert_gen_tok_text_list:
-        unpert_gen_text = tokenizer.decode(unpert_gen_tok_text.tolist()[0])
+    unpert_gen_text = tokenizer.decode(unpert_gen_tok_text.tolist()[0])
 
-        if verbosity_level >= REGULAR:
-            print("=" * 80)
-        print("= Unperturbed generated text =")
-        print(unpert_gen_text)
-        print()
+    if verbosity_level >= REGULAR:
+        print("=" * 80)
+    print("= Unperturbed generated text =")
+    print(unpert_gen_text)
+    print()
 
     generated_texts = []
 
