@@ -17,7 +17,8 @@ from io import BytesIO
 import os
 import time
 
-sys.path.append('/home/sannysjtu/google/google-ml-camp/backend/darknet_yolo')
+sys.path.append('/home/sannysjtu/google/google-ml-camp/backend/darknet_yolo/')
+print(sys.path)
 import darknet as dn
 
 app = Flask(__name__)
