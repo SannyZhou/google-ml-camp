@@ -475,7 +475,7 @@ def full_text_generation(
             perturb=False,
             verbosity_level=verbosity_level
         )
-    
+
     if device == 'cuda':
         torch.cuda.empty_cache()
 
@@ -778,6 +778,7 @@ def run_pplm_example(
     print()
     list_result = []
 
+    unpert_gen_tok_text = None
     # generate unperturbed and perturbed texts
     for class_label in labels:
         # full_text_generation returns:
