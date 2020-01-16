@@ -61,7 +61,7 @@ def simpson_person_classify(input_path):
     return person_class_list
 
 
-@app.route("/api/upload", methods=['POST'])
+@app.route("/upload", methods=['POST'])
 def get_submission():
     IP = request.remote_addr
     # flag[IP] = 0
