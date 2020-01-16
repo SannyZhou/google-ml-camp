@@ -92,6 +92,7 @@ def get_submission():
     # return the transferred images list
     style_transferred_imgs = simpsons_transfer(cropped_faces)
     this_dir = STYLE_FILEDIR + str(time.time())
+    os.mkdir(this_dir)
     for idx, img in enumerate(style_transferred_imgs):
         cv2.imwrite(os.path.join(this_dir, 'style_img_' + str(idx) + '.jpg'), img)
 
