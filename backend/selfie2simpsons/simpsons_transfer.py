@@ -17,7 +17,7 @@ def simpsons_transfer(content_imgs):
 
     genA2B.eval()
 
-    params = torch.load(os.path.join('selfie2simpsons/selfie2simpsons_params.pt'))
+    params = torch.load(os.path.join(LOCAL_DIR, 'selfie2simpsons/selfie2simpsons_params.pt'))
     genA2B.load_state_dict(params['genA2B'])
     
     output_imgs = []
