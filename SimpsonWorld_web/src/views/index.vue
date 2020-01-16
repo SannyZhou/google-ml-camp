@@ -2,8 +2,6 @@
 	<div class="index">
 		<div class="tip">
 			<router-link to="/">
-	            <!--<span class="logo-text">Simpson World</span>
-	            <br>-->
 	            <img class="logo-img" src='../../static/simpson1.jpg'>
             </router-link>
         </div>
@@ -16,21 +14,35 @@
 		<div class="panel" v-if="show">
 			<el-upload 
 				class="upload-avator"
+				action="simpson"
 				:show-file-list="false"
 				:before-upload="beforeUpload"
 				:on-change="fileChange"
 				:auto-upload="false">
-				<img v-if="simpson.imageBase64" src="simpson.imageBase64" class="avator">
+				<img v-if="simpson.imageBase64" :src="simpson.imageBase64" class="avator">
 				<i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
 			<br>
 			<div class="description">
 				<h2 class="text">Intro</h2>
-				<input id="introtxt" type="text" v-model="simpson.description" placeholder="Today is an interesting day" style="font-weight: color: #EEE; text-align:left; font-size: 16px;">
+				<input id="introtxt" type="text" v-model="simpson.description" style="font-weight: color: #EEE; text-align:left; font-size: 16px;">
 				<br>
 				<button :class="{'active': simpson.imageBase64}" id="btnsubmit" @click="submit">To be simpson!</button>
 			</div>
 			<div class="cancel"><img src='../common/assets/cross_icon.png' class="icon-cross" @click="cancelcamera"></div>
+
+			<div v-if="showresult" class="panel">
+				<div v-for="item in lists" :key="item.id">
+					<img v-bind:src="`data:image/png;base64,${item.cropped_face}`">
+					<img v-bind:src="`data:image/png;base64,${item.simpson_look}`">
+					<div>{{item.simpson_person}}</div>
+					<div>{{item.simpson_talk}}</div>
+				</div>
+				<div class="cancel"><img src='../common/assets/cross_icon.png' class="icon-cross" @click="cancelresult"></div>
+
+			</div>
+			<!-- <img v-for="item in scope.row.pictures":src="item" width="40" height="40" class="head_pic" /> -->
+			<!-- <img :src="`data:image/png;base64,${img.encodedImage}`" /> -->
 		</div>
 	</div>
 </template>
@@ -48,6 +60,7 @@ export default {
 			file: '',
 			show: false,
 			show2: false,
+			showresult: false,
 			loginForm:{username: '', password: ''},
 			user_id: 0,
 			isLogin:false,
@@ -55,11 +68,18 @@ export default {
 			dialogVisible: false,
 			simpson: {
                     name: '',
-                    description: '',
+                    description: 'Today is an interesting day',
                     imageBase64: '',
                     imageFileName: '', 
                     others: [],
-                },
+				},
+			lists: [{
+					cropped_face: '',
+					simpson_look: '',
+					simpson_person: '',
+					simpson_talk: '',
+				}
+			]
 		}
 	},
 	components: {
@@ -71,6 +91,9 @@ export default {
 		},
 		cancelcamera () {
 			this.show = false
+		},
+		cancelresult () {
+			this.showresult = false
 		},
 		cancelupload (){
 			this.show2 = false
@@ -122,14 +145,29 @@ export default {
 				imageBase64: this.simpson.imageBase64,
 				others: this.simpson.others,
 			}
-			this.$axios.post('/api/upload', simpson).then((res) => {
-				this.$message.success("Upload success")
-				this.$message({
-            		message: "Waitting for output~"
-        		});
-			}).catch(function(err){
-				this.$message.error("Upload fail");
-			});
+			setTimeout(() => {
+				var obj = this
+				this.$axios.post('/api/upload', simpson).then(function (response) {
+						console.log(response);
+						console.log(response.data)
+						obj.lists = response.data;
+						// TODO load json format
+						// add table in page
+						obj.showresult = true
+					}).catch(function (error) {
+						console.log(simpson)
+						console.log(error);
+				});
+			}, 800)
+			// .then((res) => {
+			// 	console.log(res)
+			// 	this.$message.success("Upload success")
+			// 	this.$message({
+            // 		message: "Waitting for output~"
+        	// 	});
+			// }).catch(function(err){
+			// 	this.$message.error("Upload fail");
+			// });
 		},
 		uploadpage () {
 			this.show = true
@@ -300,6 +338,13 @@ export default {
 				width 25%
 				height 40px
 				background #59422e
+		.panel
+			position fixed
+			top 0%
+			width 100%
+			height 100%
+			background #fff
+			vertical-align middle
 		.tologin
 			margin-top 25px
 			outline none
