@@ -49,7 +49,7 @@ def simpson_person_classify(input_path):
         r = dn.detect(net, meta, imgfilepath.encode('utf-8'))
         current_class_list, current_scores = [], []
         if len(r) < 1:
-            best_classname = random.choice(SIMPSON2ID.keys())
+            best_classname = random.choice(list(SIMPSON2ID.keys()))
         else:
             for res in r:
                 classname,score,bbox = res
