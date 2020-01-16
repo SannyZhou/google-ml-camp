@@ -2,7 +2,7 @@
 ### : Unsupervised Generative Attentional Networks with Adaptive Layer-Instance Normalization for Image-to-Image Translation
 
 <div align="center">
-  <img src="./assets/tesaer.png.png">
+  <img src="./assets/tesaer.png">
 </div>
 
 ### [Paper](https://arxiv.org/abs/1907.10830) | [Official Tensorflow code](https://github.com/taki0112/UGATIT)
