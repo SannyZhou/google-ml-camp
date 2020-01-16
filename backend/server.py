@@ -11,10 +11,11 @@ from person_face_detection.detector import detect_faces
 import numpy as np
 from PIL import Image
 from selfie2simpsons.simpsons_transfer import simpsons_transfer
-from darknet_yolo.SimpsonDetect import get_simpson_classes
 from PPLM.run_pplm import run_pplm_example
 import re
 from io import BytesIO
+import os
+import time
 
 sys.path.append('/home/sannysjtu/google/google-ml-camp/backend/darknet_yolo')
 import darknet as dn
@@ -27,32 +28,36 @@ SIMPSON2ID = {'abraham_grampa_simpson': 0, 'apu_nahasapeemapetilon': 1, 'bart_si
               'marge_simpson': 11, 'milhouse_van_houten': 12, 'moe_szyslak': 13, 'ned_flanders': 14,
               'nelson_muntz': 15, 'principal_skinner': 16, 'raw_character_text': 17, 'sideshow_bob': 18}
 
-def simpson_person_classify():
+STYLE_FILEDIR = '/home/sannysjtu/google/google-ml-camp/style_img_tmp_dir'
+
+
+def simpson_person_classify(input_path):
     dn.set_gpu(0)
     net = dn.load_net(b"simpsons_test.cfg", b"../../dataset/New_Simpsons/checkpoint/simpsons_5000.weights", 0)
     meta = dn.load_meta(b"simpsons.data")
-    #The result directory of the style transfer process
-    input_path = '/home/aprilpear1996/dataset/New_Simpsons/test/stylish/'
-    #The result directory of the boxed picture
-    out_path = '/home/aprilpear1996/dataset/New_Simpsons/test/result/'
     files = os.listdir(input_path)
 
     #res in the r is the detection result of the model
-    #the classname is the only required result of our application 
+    #the classname is the only required result of our application
 
-    with open(out_path + "result.txt",'w') as fwrite:
+    person_class_list = []
 
-        for imgfile in files:
-                imgfilename = imgfile[:-4]
-                        imgfilepath = input_path+imgfile
-                                outpath = out_path + imgfile
-                                        r = dn.detect(net, meta, imgfilepath.encode('utf-8'))
-                                                print (r)
-                                                        img = cv2.imread(imgfilepath)
+    for imgfile in files:
+        imgfilepath = os.path.join(input_path, imgfile)
+        r = dn.detect(net, meta, imgfilepath.encode('utf-8'))
+        current_class_list, current_scores = [], []
+        if len(r) < 1:
+            best_classname = random.choice(SIMPSON2ID.keys())
+        else:
+            for res in r:
+                classname,score,bbox = res
+                classname = classname.decode()
+                current_class_list.append(classname)
+                current_scores.append(current_scores)
+            best_classname = current_class_list[current_scores.index(max(current_scores))]
 
-                                                                for res in r:
-                                                                                classname,score,bbox = res
-                                                                                            classname = classname.decode()
+        person_class_list.append(best_classname)
+    return person_class_list
 
 
 @app.route("/api/upload", methods=['POST'])
@@ -84,10 +89,13 @@ def get_submission():
     # style transfer TODO Note that maybe have more than one face,  need to iter the cropped_faces
     # return the transferred images list
     style_transferred_imgs = simpsons_transfer(cropped_faces)
+    this_dir = STYLE_FILEDIR + str(time.time())
+    for idx, img in enumerate(style_transferred_imgs):
+        cv2.imwrite(os.path.join(this_dir, 'style_img_' + str(idx) + '.jpg'), img)
 
     # recognize who i am TODO Note that maybe have more than one face,  need to iter the cropped_faces
     # return the classes of images list
-    simpson_classes = get_simpson_classes(style_transferred_imgs)
+    simpson_classes = simpson_person_classify(this_dir)
 
     # story telling the origin description with personality
     text_results = []

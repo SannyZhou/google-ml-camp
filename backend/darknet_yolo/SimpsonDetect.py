@@ -4,7 +4,7 @@
 # Use at your own risk. or don't, i don't care
 
 import sys, os
-#sys.path.append(os.path.join(os.getcwd(),'python/'))
+sys.path.append(os.path.join(os.getcwd(),'python/'))
 
 import darknet as dn
 import pdb
