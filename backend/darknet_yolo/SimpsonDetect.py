@@ -31,17 +31,19 @@ with open(out_path + "result.txt",'w') as fwrite:
         r = dn.detect(net, meta, imgfilepath.encode('utf-8'))
         print (r)
         img = cv2.imread(imgfilepath)
+
         for res in r:
             classname,score,bbox = res
             classname = classname.decode()
-            x,y,w,h = bbox
-            cv2.rectangle(img,(int(x-w/2),int(y-h/2)),(int(x+w/2),int(y+h/2)),(18,127,15),thickness=2)
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            txt = classname + " " + (str(score))[:5]
-            cv2.putText(img, txt, (int(x-w/2+5),int(y-h/2+5)), font, 0.6, (255,255,255), lineType=cv2.LINE_AA)
-            cv2.imwrite(outpath,img)
-            newline = "current picname is: " + imgfilename + ", he/she is " + classname + '/n'
-            fwrite.write(newline)
+
+            # x,y,w,h = bbox
+            # cv2.rectangle(img,(int(x-w/2),int(y-h/2)),(int(x+w/2),int(y+h/2)),(18,127,15),thickness=2)
+            # font = cv2.FONT_HERSHEY_SIMPLEX
+            # txt = classname + " " + (str(score))[:5]
+            # cv2.putText(img, txt, (int(x-w/2+5),int(y-h/2+5)), font, 0.6, (255,255,255), lineType=cv2.LINE_AA)
+            # cv2.imwrite(outpath,img)
+            # newline = "current picname is: " + imgfilename + ", he/she is " + classname + '/n'
+            # fwrite.write(newline)
         
     
 

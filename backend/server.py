@@ -25,7 +25,7 @@ SIMPSON2ID = {'abraham_grampa_simpson': 0, 'apu_nahasapeemapetilon': 1, 'bart_si
               'nelson_muntz': 15, 'principal_skinner': 16, 'raw_character_text': 17, 'sideshow_bob': 18}
 
 
-@app.route("/upload", methods=['POST'])
+@app.route("/api/upload", methods=['POST'])
 def get_submission():
     IP = request.remote_addr
     # flag[IP] = 0
@@ -44,7 +44,7 @@ def get_submission():
     text_orig = json_data['description']
     imageBase64 = json_data['imageBase64']
     base64_data = re.sub('^data:image/.+;base64,', '', imageBase64)
-    byte_data = base64.b64decode(imageBase64.split(",")[1])
+    byte_data = base64.b64decode(base64_data)
     image_data = BytesIO(byte_data)
     origin_img = Image.open(image_data)
 
@@ -62,23 +62,22 @@ def get_submission():
     # story telling the origin description with personality
     text_results = []
     for simpson_person in simpson_classes:
-        text_results.append(text_orig)
-        # text_results.append(
-        #     run_pplm_example(cond_text=text_orig,
-        #                      num_samples=1,
-        #                      discrim='simpson',
-        #                      class_label=SIMPSON2ID[simpson_person],
-        #                      length=25,
-        #                      stepsize=0.01,
-        #                      num_iterations=10,
-        #                      gamma=1.5,
-        #                      kl_scale=0.02,
-        #                      gm_scale=0.95,
-        #                      window_length=5,
-        #                      sample=True,
-        #                      verbosity='quiet')
-        # )
-    results = dict()
+        text_results.append(
+            run_pplm_example(cond_text=text_orig,
+                             num_samples=1,
+                             discrim='simpson',
+                             class_label=SIMPSON2ID[simpson_person],
+                             length=25,
+                             stepsize=0.01,
+                             num_iterations=10,
+                             gamma=1.5,
+                             kl_scale=0.02,
+                             gm_scale=0.95,
+                             window_length=5,
+                             sample=True,
+                             verbosity='quiet')
+        )
+    results = {}
     for idx, (face, style_transferred_img, simpson_class, simpson_text) in enumerate(zip(cropped_faces,
                                                                                          style_transferred_imgs,
                                                                                          simpson_classes,
@@ -87,18 +86,16 @@ def get_submission():
         style_transferred_img_base64_str = cv2.imencode('.jpg', style_transferred_img)[1].tostring()
 
         results[idx] = {
-            # 'cropped_face': face,
-            # 'simpson_look': style_transferred_img,
-            'cropped_face': base64.b64encode(face_base64_str).decode('ascii'),
-            'simpson_look': base64.b64encode(style_transferred_img_base64_str).decode('ascii'),
+            'cropped_face': base64.b64encode(face_base64_str),
+            'simpson_look': base64.b64encode(style_transferred_img_base64_str),
             'simpson_person': simpson_class,
             'simpson_talk': simpson_text
         }
-    print(results)
-    return Response(json.dumps(results), 200, mimetype="application/json")
+    Response(json.dumps(results), 200)
+    return
 
 
-def crop_face(imgarray, section, margin=120, size=64):
+def crop_face(imgarray, section, margin=40, size=64):
     """
     :param imgarray: full image
     :param section: face detected area (x, y, w, h)
@@ -126,7 +123,7 @@ def crop_face(imgarray, section, margin=120, size=64):
     cropped = imgarray[y_a: y_b, x_a: x_b]
     resized_img = cv2.resize(cropped, (size, size), interpolation=cv2.INTER_AREA)
     resized_img = np.array(resized_img)
-    return resized_img
+    return resized_img, (x_a, y_a, x_b, y_b)
 
 
 # face recognition
@@ -141,15 +138,14 @@ def face_recognition(img):
     print("bounding_boxes", bounding_boxes)
     faces.extend(bounding_boxes)
 
-    img = cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
     cropped = []
     for i, face in enumerate(faces):
         print('face', face)
-        face_img = crop_face(img, face, margin=20, size=64)
-        cv2.imwrite("./person_face_detection/model_data/person_pic/face%s.jpg" % str(i), face_img)
+        face_img, cropped = crop_face(img, face, margin=20, size=64)
+        cv2.imwrite("./model_data/person_pic/face%s.jpg" % str(i), face_img)
         cropped.append(face_img)
     return cropped
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000, host="")
+    app.run(debug=True, port=8000, host="0.0.0.0")
