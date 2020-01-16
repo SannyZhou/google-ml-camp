@@ -44,16 +44,16 @@
         </el-header>
         <el-container>
             <router-view></router-view>
-                <el-footer  type="flex" justify="space-around" style="background-color: #545c64; height: 38px;" >
+                <el-footer  type="flex" justify="space-around" style="background-color: #545c64; height: 0px" >
                     <el-row type="flex" justify="end">
                         <el-col :span="3">
                             <router-link to="/about">
-                                <span class="help">关于</span>
+                                
                             </router-link>
                         </el-col>
                         <el-col :span="3">
                             <router-link to="/contactus">
-                                <span class="help">联系我们</span>
+                                
                             </router-link>
                         </el-col>
                     </el-row>

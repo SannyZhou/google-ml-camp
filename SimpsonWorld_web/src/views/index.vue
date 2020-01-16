@@ -2,7 +2,7 @@
 	<div class="index">
 		<div class="tip">
 			<router-link to="/">
-	            <img class="logo-img" src='../../static/simpson1.jpg'>
+	            <img class="logo-img" src='../../static/simpson_head.jpg'>
             </router-link>
         </div>
 
@@ -24,19 +24,26 @@
             </el-upload>
 			<br>
 			<div class="description">
-				<h2 class="text">Intro</h2>
-				<input id="introtxt" type="text" v-model="simpson.description" style="font-weight: color: #EEE; text-align:left; font-size: 16px;">
+				<h2 class="text">Now I Want To Say:</h2>
+				<input id="introtxt" type="textarea" rows=3 v-model="simpson.description" style="font-weight: color: #EEE; text-align:left; font-size: 16px;">
 				<br>
 				<button :class="{'active': simpson.imageBase64}" id="btnsubmit" @click="submit">To be simpson!</button>
 			</div>
 			<div class="cancel"><img src='../common/assets/cross_icon.png' class="icon-cross" @click="cancelcamera"></div>
 
 			<div v-if="showresult" class="panel">
-				<div v-for="item in lists" :key="item.id">
-					<img v-bind:src="`data:image/png;base64,${item.cropped_face}`">
-					<img v-bind:src="`data:image/png;base64,${item.simpson_look}`">
-					<div>{{item.simpson_person}}</div>
-					<div>{{item.simpson_talk}}</div>
+				<div class="rolling">
+					<div v-for="item in lists" :key="item.id" class="resultpic">
+						<img v-bind:src="`data:image/png;base64,${item.cropped_face}`">
+						<img v-bind:src="`data:image/png;base64,${item.simpson_look}`">
+						<div class="classname">
+							<span class="Fixed">You're</span> <span class="SimpsonName"> {{item.simpson_person}}</span>
+							<h2> What will you say? </h2>							
+						</div>
+						<div class="SimpsonWords">
+							<div class="simpsonsays">{{item.simpson_talk}}</div>
+						</div>
+					</div>
 				</div>
 				<div class="cancel"><img src='../common/assets/cross_icon.png' class="icon-cross" @click="cancelresult"></div>
 
@@ -222,7 +229,7 @@ export default {
 		line-height: 50px;
 		font-size: 30px;
 		font-weight: bold;
-		background: #59422e;
+		background: #0098da;
 		vertical-align: middle;
 		.logo-img {
         	margin: 1x 1px;
@@ -274,23 +281,31 @@ export default {
 		top 0%
 		width 100%
 		height 100%
-		background #fff
+		background url("../../static/simpson8.jpg") 0px 0px
+		background-size 100%
 		vertical-align middle
 		.upload-avator
 			position relative
+			top 10%
+			margin:0 auto
 			border 1px dashed #d9d9d9
 			width 178px
 			height 178px
 			border-radius 6px
 			cursor pointer
 			overflow hidden
+			text-align center
+			background url("../../static/simpson7.jpeg")  0px 0px
+			background-size 105%
 			.avatar-uploader-icon
+				position relative
+				top 50%
+				margin:0 auto
 				font-size 28px
 				color #8c939d
 				width 100%
 				height 100%
 				line-height 100%
-				margin-top  center
 			.avator
 				width 178px
 				height 178px
@@ -308,11 +323,12 @@ export default {
 					display block
 					text-align center
 		.description
+			position relative
+			top 5%
 			text-align center
-			justify-content center
+			margin:5px auto
 			align-items center
 			text
-				width 45%
 				padding 10px 0
 				position relative
 				h2
@@ -322,7 +338,8 @@ export default {
 					line-height 32px
 					color #8f8f8f
 				input
-					width 100%
+					width 300px
+					height 40px
 					border 1px solid #f2f2f2
 					padding 5px
 					border-radius 10px
@@ -341,10 +358,46 @@ export default {
 		.panel
 			position fixed
 			top 0%
-			width 100%
-			height 100%
-			background #fff
-			vertical-align middle
+			width 1440px
+			height 800px
+			overflow hidden
+			background url("../../static/simpson8.jpg") 0px 0px
+			background-size 100%
+			.rolling
+				position fixed
+				top 60px
+				width 1440px
+				height 600px
+				overflow-y scoll
+				overflow-x hidden
+				background-color:rgba(255,255,255,0.5)
+				.resultpic
+					position relative
+					margin 20px
+					text-align center
+					.classname
+						position relative
+						top 10%
+						text-align center
+						.Fixed
+							font-size 26px
+							color #303133
+						.SimpsonName
+							font-size 26px
+							color #800000
+					.SimpsonWords
+						width 40%
+						height 150%
+						position relative
+						margin:0 auto
+						border-radius 10px
+						top 3%
+						text-align center
+						background #F0FFFF
+						.simpsonsays
+							font-size 24px
+							color #606266
+
 		.tologin
 			margin-top 25px
 			outline none
