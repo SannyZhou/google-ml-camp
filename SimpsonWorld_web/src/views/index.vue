@@ -157,15 +157,14 @@ export default {
 				this.$axios.post('/api/upload', simpson).then(function (response) {
 						console.log(response);
 						console.log(response.data)
-						obj.lists = response.data;
-						// TODO load json format
-						// add table in page
+						obj.lists = response.data
 						obj.showresult = true
+
 					}).catch(function (error) {
 						console.log(simpson)
 						console.log(error);
 				});
-			}, 800)
+			}, 8000)
 			// .then((res) => {
 			// 	console.log(res)
 			// 	this.$message.success("Upload success")

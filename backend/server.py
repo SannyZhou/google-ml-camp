@@ -48,15 +48,12 @@ def simpson_person_classify(input_path):
         imgfilepath = os.path.join(input_path, imgfile)
         r = dn.detect(net, meta, imgfilepath.encode('utf-8'))
         current_class_list, current_scores = [], []
-        if len(r) < 1:
-            best_classname = random.choice(list(SIMPSON2ID.keys()))
-        else:
-            for res in r:
-                classname, score, bbox = res
-                classname = classname.decode()
-                current_class_list.append(classname)
-                current_scores.append(current_scores)
-            best_classname = current_class_list[current_scores.index(max(current_scores))]
+        for res in r:
+            classname, score, bbox = res
+            classname = classname.decode()
+            current_class_list.append(classname)
+            current_scores.append(current_scores)
+        best_classname = current_class_list[current_scores.index(max(current_scores))]
 
         person_class_list.append(best_classname)
     return person_class_list
