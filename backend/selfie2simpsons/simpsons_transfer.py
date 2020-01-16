@@ -8,7 +8,7 @@ from torchvision import transforms
 from PIL import Image
 import sys
 
-LOCAL_DIR = "/home/sannysjtu/google/google-ml-camp"
+LOCAL_DIR = "/home/sannysjtu/google/google-ml-camp/backend"
 
 
 def simpsons_transfer(content_imgs):
