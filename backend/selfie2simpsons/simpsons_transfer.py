@@ -25,7 +25,8 @@ def simpsons_transfer(content_imgs):
     for content in content_imgs:
         print(content)
         print(torch.tensor(content).shape)
-        content = torch.tensor(content).float().to(device).unsqueeze(0)
+
+        content = torch.tensor(content).float().permute(2, 0, 1).to(device).unsqueeze(0)
         with torch.no_grad():
             fake_A2B, _, fake_A2B_heatmap = genA2B(content)
 
