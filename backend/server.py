@@ -79,8 +79,8 @@ def get_submission():
     # process data
     text_orig = json_data['description']
     imageBase64 = json_data['imageBase64']
-    base64_data = re.sub('^data:image/.+;base64,', '', imageBase64)
-    byte_data = base64.b64decode(base64_data)
+    # base64_data = re.sub('^data:image/.+;base64,', '', imageBase64)
+    byte_data = base64.b64decode(imageBase64.split(",")[1])
     image_data = BytesIO(byte_data)
     origin_img = Image.open(image_data)
 
@@ -125,13 +125,13 @@ def get_submission():
         style_transferred_img_base64_str = cv2.imencode('.jpg', style_transferred_img)[1].tostring()
 
         results[idx] = {
-            'cropped_face': base64.b64encode(face_base64_str),
-            'simpson_look': base64.b64encode(style_transferred_img_base64_str),
+            'cropped_face': base64.b64encode(face_base64_str).decode('ascii'),
+            'simpson_look': base64.b64encode(style_transferred_img_base64_str).decode('ascii'),
             'simpson_person': simpson_class,
             'simpson_talk': simpson_text
         }
-    Response(json.dumps(results), 200)
-    return
+    print(results)
+    return Response(json.dumps(results), 200, mimetype="application/json")
 
 
 def crop_face(imgarray, section, margin=40, size=64):
