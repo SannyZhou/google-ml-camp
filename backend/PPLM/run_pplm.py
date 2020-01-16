@@ -431,6 +431,7 @@ def full_text_generation(
         gm_scale=0.9,
         kl_scale=0.01,
         verbosity_level=REGULAR,
+        unpert_gen_tok_text=None,
         **kwargs
 ):
     classifier, class_id = get_classifier(
@@ -463,16 +464,18 @@ def full_text_generation(
     else:
         raise Exception("Specify either a bag of words or a discriminator")
 
-    unpert_gen_tok_text, _, _ = generate_text_pplm(
-        model=model,
-        tokenizer=tokenizer,
-        context=context,
-        device=device,
-        length=length,
-        sample=sample,
-        perturb=False,
-        verbosity_level=verbosity_level
-    )
+    if unpert_gen_tok_text is None:
+        unpert_gen_tok_text, _, _ = generate_text_pplm(
+            model=model,
+            tokenizer=tokenizer,
+            context=context,
+            device=device,
+            length=length,
+            sample=sample,
+            perturb=False,
+            verbosity_level=verbosity_level
+        )
+    
     if device == 'cuda':
         torch.cuda.empty_cache()
 
@@ -801,7 +804,8 @@ def run_pplm_example(
             gamma=gamma,
             gm_scale=gm_scale,
             kl_scale=kl_scale,
-            verbosity_level=verbosity_level
+            verbosity_level=verbosity_level,
+            unpert_gen_tok_text=unpert_gen_tok_text
         )
 
         # untokenize unperturbed text
