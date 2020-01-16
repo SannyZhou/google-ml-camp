@@ -177,11 +177,12 @@ def face_recognition(img):
     print("bounding_boxes", bounding_boxes)
     faces.extend(bounding_boxes)
 
+    img = cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
     cropped = []
     for i, face in enumerate(faces):
         print('face', face)
-        face_img, cropped = crop_face(img, face, margin=20, size=64)
-        cv2.imwrite("./model_data/person_pic/face%s.jpg" % str(i), face_img)
+        face_img = crop_face(img, face, margin=20, size=64)
+        cv2.imwrite("./person_face_detection/model_data/person_pic/face%s.jpg" % str(i), face_img)
         cropped.append(face_img)
     return cropped
 
