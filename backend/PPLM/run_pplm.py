@@ -480,7 +480,7 @@ def full_text_generation_batch(
     pert_gen_tok_texts = []
     discrim_losses = []
     losses_in_time = []
-
+    print(labels)
     for class_id in labels:
         pert_gen_tok_text, discrim_loss, loss_in_time = generate_text_pplm(
             model=model,
