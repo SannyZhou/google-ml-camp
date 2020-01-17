@@ -60,11 +60,11 @@ create a folder named testImg like this for your content images that you want to
 
 ## Architecture
 <div align="center">
-  <img src = './assets/generator.png' width = '785px' height = '500px'>
+  <img src = './assets/1121579174928_.pic_hd.jpg' width = '785px' height = '500px'>
 </div>
 
 ---
 
 <div align="center">
-  <img src = './assets/discriminator.png' width = '785px' height = '450px'>
+  <img src = './assets/1131579174999_.pic_hd.jpg' width = '785px' height = '450px'>
 </div>
