@@ -1,4 +1,4 @@
-## U-GAT-IT &mdash; Official PyTorch Implementation
+## U-GAT-IT &mdash; Official PyTorch Implementation for selfie to simpson
 ### : Unsupervised Generative Attentional Networks with Adaptive Layer-Instance Normalization for Image-to-Image Translation
 
 <div align="center">
@@ -46,6 +46,18 @@ The results of the paper came from the **Tensorflow code**
 > python main.py --dataset selfie2anime --phase test
 ```
 
+### Transfer
+```
+create a folder named testImg like this for your content images that you want to transfer
+├── testImg
+   └── content
+       ├── xxx.jpg (name, format doesn't matter)
+       ├── yyy.png
+       └── ...
+
+> python simpsons_transfer.py
+```
+
 ## Architecture
 <div align="center">
   <img src = './assets/generator.png' width = '785px' height = '500px'>
@@ -55,20 +67,4 @@ The results of the paper came from the **Tensorflow code**
 
 <div align="center">
   <img src = './assets/discriminator.png' width = '785px' height = '450px'>
-</div>
-
-## Results
-### Ablation study
-<div align="center">
-  <img src = './assets/ablation.png' width = '438px' height = '346px'>
-</div>
-
-### User study
-<div align="center">
-  <img src = './assets/user_study.png' width = '738px' height = '187px'>
-</div>
-
-### Comparison
-<div align="center">
-  <img src = './assets/kid.png' width = '787px' height = '344px'>
 </div>
