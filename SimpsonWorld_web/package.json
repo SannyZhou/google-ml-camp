@@ -16,7 +16,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "element-ui": "^2.3.4",
     "es2015": "^0.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.23.0",
     "vue": "^2.5.16",
