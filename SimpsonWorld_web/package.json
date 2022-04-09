@@ -18,7 +18,7 @@
     "es2015": "^0.0.0",
     "lodash": "^4.17.11",
     "mockjs": "^1.0.1-beta3",
-    "moment": "^2.23.0",
+    "moment": "^2.29.2",
     "vue": "^2.5.16",
     "vue-router": "^3.0.2",
     "vue2-datatable-component": "^2.3.1",
